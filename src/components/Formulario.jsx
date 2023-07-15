@@ -60,7 +60,7 @@ const Error = styled.div`
   margin-bottom: 20px;
 `;
 
-const Formulario = ({ setResumen }) => {
+const Formulario = ({ setResumen, setCargando }) => {
   const [datos, setDatos] = useState({
     marca: "",
     year: "",
@@ -99,12 +99,18 @@ const Formulario = ({ setResumen }) => {
     //complete aumenta 50%
     const incrementoPlan = obtenerPlan(plan);
     resultado = parseFloat(incrementoPlan * resultado).toFixed(2);
+    setCargando(true);
+    setTimeout(() => {
+      setCargando(false);
+      //mostrar el resumen
+      setResumen({
+        cotizacion: resultado,
+        datos,
+      });
+    }, 2500);
     //total
-    setResumen({
-      cotizacion: resultado,
-      datos,
-    });
   };
+
   return (
     <form onSubmit={handleCotizar}>
       {error ? <Error>All fields are required</Error> : null}
@@ -112,9 +118,9 @@ const Formulario = ({ setResumen }) => {
         <Label>Brand</Label>
         <Select name="marca" value={marca} onChange={handleOnchage}>
           <option value="">**Select**</option>
-          <option value="american">American</option>
-          <option value="european">European</option>
-          <option value="asian">Asian</option>
+          <option value="americano">American</option>
+          <option value="europeo">European</option>
+          <option value="asiatico">Asian</option>
         </Select>
       </Campo>
       <Campo>
@@ -140,8 +146,8 @@ const Formulario = ({ setResumen }) => {
           type="radio"
           name="plan"
           id="basico"
-          value="basic"
-          checked={plan === "basic"}
+          value="basico"
+          checked={plan === "basico"}
           onChange={handleOnchage}
         />
         <Label htmlFor="basico">Basic</Label>
@@ -149,8 +155,8 @@ const Formulario = ({ setResumen }) => {
           type="radio"
           name="plan"
           id="completo"
-          value="complete"
-          checked={plan === "complete"}
+          value="completo"
+          checked={plan === "completo"}
           onChange={handleOnchage}
         />
         <Label htmlFor="completo">Complete</Label>

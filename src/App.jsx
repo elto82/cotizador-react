@@ -3,6 +3,8 @@ import Formulario from "./components/Formulario";
 import Header from "./components/Header";
 import styled from "@emotion/styled";
 import Resumen from "./components/Resumen";
+import Resultado from "./components/Resultado";
+import Spinner from "./components/spinner/Spinner";
 
 const Contenedor = styled.div`
   max-width: 600px;
@@ -14,6 +16,7 @@ const ContenedorFormulario = styled.div`
   color: #000;
 `;
 const App = () => {
+  const [cargando, setCargando] = useState(false);
   const [resumen, setResumen] = useState({
     cotizacion: 0,
     datos: {
@@ -23,14 +26,15 @@ const App = () => {
     },
   });
   //extraer datos
-  const { datos } = resumen;
-
+  const { cotizacion, datos } = resumen;
   return (
     <Contenedor>
       <Header titulo="Quotation" />
       <ContenedorFormulario>
-        <Formulario setResumen={setResumen} />
-        <Resumen datos={datos} />
+        <Formulario setResumen={setResumen} setCargando={setCargando} />
+        {cargando && <Spinner />}
+        {!cargando && <Resumen datos={datos} />}
+        {!cargando && <Resultado cotizacion={cotizacion} />}
       </ContenedorFormulario>
     </Contenedor>
   );
