@@ -16,13 +16,15 @@ const Resultado = ({ cotizacion }) => {
   return cotizacion === 0 ? (
     <Texto>Choose brand, year and type of insurance</Texto>
   ) : (
-    <TransitionGroup component="p" className="resultado">
+    <TransitionGroup component="span" className="resultado">
       <CSSTransition
         classNames="resultado"
         key={cotizacion}
         timeout={{ enter: 500, exit: 500 }}
       >
-        <Texto>The total is:$ {cotizacion}</Texto>
+        <Texto>
+          The total is:$ <span>{cotizacion}</span>
+        </Texto>
       </CSSTransition>
     </TransitionGroup>
   );
