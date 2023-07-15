@@ -60,7 +60,7 @@ const Error = styled.div`
   margin-bottom: 20px;
 `;
 
-const Formulario = () => {
+const Formulario = ({ setResumen }) => {
   const [datos, setDatos] = useState({
     marca: "",
     year: "",
@@ -91,7 +91,6 @@ const Formulario = () => {
     const diferencia = obtenerDiferenciaYear(year);
     //por cada año hay que restar el 3%
     resultado -= (diferencia * 3 * resultado) / 100;
-
     //americano 15
     //asiatico 5
     //europeo30
@@ -101,6 +100,10 @@ const Formulario = () => {
     const incrementoPlan = obtenerPlan(plan);
     resultado = parseFloat(incrementoPlan * resultado).toFixed(2);
     //total
+    setResumen({
+      cotizacion: resultado,
+      datos,
+    });
   };
   return (
     <form onSubmit={handleCotizar}>
@@ -109,9 +112,9 @@ const Formulario = () => {
         <Label>Brand</Label>
         <Select name="marca" value={marca} onChange={handleOnchage}>
           <option value="">**Select**</option>
-          <option value="americano">American</option>
-          <option value="europeo">European</option>
-          <option value="asiatico">Asian</option>
+          <option value="american">American</option>
+          <option value="european">European</option>
+          <option value="asian">Asian</option>
         </Select>
       </Campo>
       <Campo>
@@ -137,8 +140,8 @@ const Formulario = () => {
           type="radio"
           name="plan"
           id="basico"
-          value="basico"
-          checked={plan === "basico"}
+          value="basic"
+          checked={plan === "basic"}
           onChange={handleOnchage}
         />
         <Label htmlFor="basico">Basic</Label>
@@ -146,8 +149,8 @@ const Formulario = () => {
           type="radio"
           name="plan"
           id="completo"
-          value="completo"
-          checked={plan === "completo"}
+          value="complete"
+          checked={plan === "complete"}
           onChange={handleOnchage}
         />
         <Label htmlFor="completo">Complete</Label>
