@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useState } from "react";
 
 const Campo = styled.div`
   display: flex;
@@ -47,11 +48,27 @@ const Boton = styled.button`
 `;
 
 const Formulario = () => {
+  const [datos, setDatos] = useState({
+    marca: "",
+    year: "",
+    plan: "",
+  });
+  // extraer datos del state
+  const { marca, year, plan } = datos;
+  //obtener los valores del formulario
+  const handleOnchage = (e) => {
+    e.preventDefault();
+    setDatos({
+      ...datos,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   return (
     <form>
       <Campo>
         <Label>Brand</Label>
-        <Select>
+        <Select name="marca" value={marca} onChange={handleOnchage}>
           <option value="">**Select**</option>
           <option value="americano">American</option>
           <option value="europeo">European</option>
@@ -60,7 +77,7 @@ const Formulario = () => {
       </Campo>
       <Campo>
         <Label>Year</Label>
-        <Select>
+        <Select name="year" value={year} onChange={handleOnchage}>
           <option value="">**Select**</option>
           <option value="2023">2023</option>
           <option value="2022">2022</option>
@@ -77,9 +94,23 @@ const Formulario = () => {
       </Campo>
       <Campo>
         <Label>Plan</Label>
-        <InputRadio type="radio" name="plan" id="basico" value="basico" />{" "}
+        <InputRadio
+          type="radio"
+          name="plan"
+          id="basico"
+          value="basico"
+          checked={plan === "basico"}
+          onChange={handleOnchage}
+        />
         <Label htmlFor="basico">Basic</Label>
-        <InputRadio type="radio" name="plan" id="completo" value="completo" />
+        <InputRadio
+          type="radio"
+          name="plan"
+          id="completo"
+          value="completo"
+          checked={plan === "completo"}
+          onChange={handleOnchage}
+        />
         <Label htmlFor="completo">Complete</Label>
       </Campo>
       <Boton type="button">Quote </Boton>
