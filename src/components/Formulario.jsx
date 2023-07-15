@@ -46,6 +46,14 @@ const Boton = styled.button`
     cursor: pointer;
   }
 `;
+const Error = styled.div`
+  background-color: red;
+  color: #fff;
+  padding: 0.5rem;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+`;
 
 const Formulario = () => {
   const [datos, setDatos] = useState({
@@ -53,6 +61,7 @@ const Formulario = () => {
     year: "",
     plan: "",
   });
+  const [error, setError] = useState(false);
   // extraer datos del state
   const { marca, year, plan } = datos;
   //obtener los valores del formulario
@@ -64,8 +73,25 @@ const Formulario = () => {
     });
   };
 
+  const handleCotizar = (e) => {
+    e.preventDefault();
+    if (marca.trim() === "" || year.trim() === "" || plan.trim() === "") {
+      setError(true);
+      return;
+    }
+    setError(false);
+    //obtener diferencia de años
+    //por cada año hay que restar el 3%
+    //americano 15
+    //asiatico 5
+    //europeo30
+    //basico aumenta 20%
+    //complete aumenta 50%
+    //total
+  };
   return (
-    <form>
+    <form onSubmit={handleCotizar}>
+      {error ? <Error>All fields are required</Error> : null}
       <Campo>
         <Label>Brand</Label>
         <Select name="marca" value={marca} onChange={handleOnchage}>
@@ -113,7 +139,9 @@ const Formulario = () => {
         />
         <Label htmlFor="completo">Complete</Label>
       </Campo>
-      <Boton type="button">Quote </Boton>
+      <Boton onClick={handleCotizar} type="button">
+        Quote
+      </Boton>
     </form>
   );
 };
